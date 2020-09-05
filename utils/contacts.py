@@ -172,6 +172,18 @@ def delete_contact():
 	Input the contact name to be deleted from the user
 	The input contact name must not be empty. If it is empty, reprompt.
 	Delete all contacts matching the name, case independent."""
+	
+	contact_name = ''
+
+	while contact_name == '' or contact_name == ' ':
+		contact_name = input('Enter name of contact to delete: ')
+
+	if c.execute(f'''SELECT * FROM {_tablename} WHERE LOWER(name) = ?''', (contact_name.lower(), )).fetchone() is None:
+		return False
+
+	c.execute(f'''DELETE FROM {_tablename} WHERE LOWER(name) = ?;''', (contact_name.lower(), ))
+	conn.commit()
+	return True
 
 
 def search_contact():

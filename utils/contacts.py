@@ -192,6 +192,16 @@ def search_contact():
 	Returns true if at least one match is found, false otherwise
 	Input a name key (name to be searched), and make sure it's not empty. If it is empty, reprompt.
 	Print all the matching contacts, based on the name key, case independent"""
+	contact_name = ''
+
+	while contact_name == '' or contact_name == ' ':
+		contact_name = input('Enter name of the contact to search: ')
+	
+	if c.execute(f'''SELECT * FROM {_tablename} WHERE LOWER(name) = ?''', (contact_name.lower(), )).fetchone() is None:
+		return False
+	
+	for name, num, email in c.execute(f'''SELECT name, phno, email FROM {_tablename} WHERE LOWER(name) = ?;''', (contact_name.lower(), )):
+		print(f'Name: {name} | Number: {num} | Email: {email}')
 
 
 def import_csv():

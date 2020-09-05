@@ -202,6 +202,7 @@ def search_contact():
 	
 	for name, num, email in c.execute(f'''SELECT name, phno, email FROM {_tablename} WHERE LOWER(name) = ?;''', (contact_name.lower(), )):
 		print(f'Name: {name} | Number: {num} | Email: {email}')
+        return True
 
 
 def import_csv():

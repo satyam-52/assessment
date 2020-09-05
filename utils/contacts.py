@@ -166,41 +166,20 @@ def modify_contact():
 
 
 def delete_contact():
-	"""Deletes contact based on the user input from the contacts table"""
-	print('\nDelete contact')
-	delete_contact_name = ''
+	"""Deletes contact based on the user input from the contacts table.
 
-	while delete_contact_name == '' or delete_contact_name == ' ':
-		delete_contact_name = input('Enter name of contact to delete: ')
-
-	# If there's at least one entry in table with given key name, then delete it
-	if c.execute(f'''SELECT * FROM {_tablename} WHERE LOWER(name) = ?''', (delete_contact_name.lower(), )).fetchone() is not None:
-		query = c.execute(f'''DELETE FROM {_tablename}
-							WHERE LOWER(name) = ?''', (delete_contact_name.lower(), ))
-		conn.commit()
-		return True
-	else:
-		return False
+	Return true if at least contact is deleted, and false otherwise.
+	Input the contact name to be deleted from the user
+	The input contact name must not be empty. If it is empty, reprompt.
+	Delete all contacts matching the name, case independent."""
 
 
 def search_contact():
-	"""Searches a contact in the current table and prints all relevant matches."""
-	print('\nSearch contact')
-	print('Enter Name to search the contact...')
-	name_key = input('Name: ')
+	"""Searches a contact in the current table and prints all relevant matches.
 
-	while name_key == '' or name_key == ' ':
-		print('No input..\ntry again: ')
-		name_key = input('Name: ')
-
-	# flag
-	flag = False
-	for contact_name, number, email in c.execute(f'SELECT * FROM {_tablename}'):
-		if name_key.lower() == contact_name.lower():
-			print(f'Name: {contact_name} | Number: {number} | Email: {email}')
-			flag = True
-
-	return flag
+	Returns true if at least one match is found, false otherwise
+	Input a name key (name to be searched), and make sure it's not empty. If it is empty, reprompt.
+	Print all the matching contacts, based on the name key, case independent"""
 
 
 def import_csv():
